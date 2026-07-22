@@ -513,7 +513,7 @@ async def list_skills(
     db: AsyncSession = Depends(get_db),
 ):
     settings = await get_user_settings_dict(db, current_user.id)
-    connected = bool(settings.get("GOOGLE_ADS_REFRESH_TOKEN") and settings.get("GOOGLE_ADS_CUSTOMER_ID"))
+    connected = GoogleAdsService(settings=settings)._is_configured()
     return {"skills": [{"id": skill_id, "connected": connected, **meta} for skill_id, meta in SKILLS.items()]}
 
 
